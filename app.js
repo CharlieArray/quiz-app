@@ -1,7 +1,7 @@
 //HTML elements stored as variables//
 const quizContainer = document.getElementById('quiz')
-const quizResults = document.getElementById('results')
-const quizSubmit = document.getElementById('submit')
+const resultsContainer = document.getElementById('results')
+const submitButton = document.getElementById('submit')
 const myQuestions = [
   {
     question: "What is the primary difference between the S&P 500 index vs DOW Jones Industrial (DJI) index?",
