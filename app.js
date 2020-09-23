@@ -1,3 +1,72 @@
+
+// Function for Quiz Visualization and Output of Quizzes/Answers
+function buildQuiz(){
+  //stores HTML output
+  const output = [];
+
+  myQuestions.forEach( (currentQuestion, questionNumber) => {
+
+    //variable to store possible answers 
+    const answers = [];
+
+    // for each avaiable answer
+    for(letter in currentQuestion.answers){
+      answers.push(
+        `<label>
+          <input type="radio" name="question${questionNumber}" value="${letter}">
+            ${letter} :
+            ${currentQuestion.answers[letter]}
+        </label>`
+        );
+    }
+
+    // adds the question and answers to the output
+    output.push(
+      `<div class="question" > ${currentQuestion.question} </div>
+      <div class="answers" > ${answers.join('')} </div>`
+    );
+  }
+);
+
+  //combines output list into one string of HTML and puts it on the page
+  quizContainer.innerHTML = output.join('');
+}
+  
+
+function showResults(){
+  //variable to gather answer containers from quiz
+  const answerContainers = quizContainer.querySelectorAll('.answers');
+
+  //variable to track users correct answers
+  let numCorrect = 0;
+
+  //loop through each question
+  myQuestions.forEach( (currentQuestion, questionNumber) => {
+    
+    //finds selected answer
+    const answerContainer = answerContainers[questionNumber];
+    const selector = `input[name=question${questionNumber}]:checked`;
+    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+    // if user answer is correct
+    if(userAnswer === currentQuestion.correctAnswer){
+      numCorrect++;
+
+    //styling to make correct answers green
+    answerContainers[questionNumber].style.color = 'green';
+    }
+
+  //else if statement if wrong answer 
+  else{
+    // color the answers red
+    answerContainers[questionNumber].style.color = 'red';
+  }
+});
+
+// show number of correct answers out of total
+resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+}
+
 //HTML elements stored as variables//
 const quizContainer = document.getElementById('quiz')
 const resultsContainer = document.getElementById('results')
@@ -79,76 +148,6 @@ const myQuestions = [
   }
 
 ];
-
-// Function for Quiz Visualization and Output of Quizzes/Answers
-function buildQuiz(){
-  //stores HTML output
-  const output = [];
-
-  myQuestions.forEach( (currentQuestion, questionNumber) => {
-
-    //variable to store possible answers 
-    const answers = [];
-
-    // for each avaiable answer
-    for(letter in currentQuestion.answers){
-      answers.push(
-        `<label>
-          <input type="radio" name="question${questionNumber}" value="${letter}">
-            ${letter} :
-            ${currentQuestion.answers[letter]}
-        </label>`
-        );
-    }
-
-    // adds the question and answers to the output
-    output.push(
-      `<div class="question" > ${currentQuestion.question} </div>
-      <div class="answers" > ${answers.join('')} </div>`
-    );
-  }
-);
-
-  //combines output list into one string of HTML and puts it on the page
-  quizContainer.innerHTML = output.join('');
-}
-  
-
-function showResults(){
-  //variable to gather answer containers from quiz
-  const answerContainers = quizContainer.querySelectorAll('.answers');
-
-  //variable to track users correct answers
-  let numCorrect = 0;
-
-  //loop through each question
-  myQuestions.forEach( (currentQuestion, questionNumber) => {
-    
-    //finds selected answer
-    const answerContainer = answerContainer[questionNumber];
-    const selector = `input[name=question${questionNumber}]:checked`;
-    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
-    // if user answer is correct
-    if(userAnswer === currentQuestion.correctAnswer){
-      numCorrect++;
-
-    //styling to make correct answers green
-    answerContainers[questionNumber].style.color = 'green';
-    }
-
-  //else if statement if wrong answer 
-  else{
-    // color the answers red
-    answerContainers[questionNumber].style.color = 'red';
-  }
-});
-
-// show number of correct answers out of total
-resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
-}
-
-
 
 //Call Quiz Function right away//
 buildQuiz();
