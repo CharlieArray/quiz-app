@@ -1,8 +1,64 @@
-/* Your styles should be mobile-first and responsive */
 
-/** 
-  * If you are unclear on how to utilize a mobile-first, responsive technique to write your CSS, here is an example: 
-  *
-  * https://github.com/andreacardybailey/responsive_example/blob/master/styles/responsive-base.css 
-  *
-*/
+ 
+  body {
+    margin: 0;
+    background-color: burlywood;
+  }
+
+  header{
+  text-align:center;
+  }
+
+  h1{
+    text-align:center;
+    font-family: 'Permanent Marker', serif;
+    font-size: 48px;
+    color: black;
+    text-decoration: underline;
+  }
+
+  .quiz-container{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align:center;
+    padding: 60px
+  }
+
+  .question{ 
+    font-size: 26px;
+    font-weight: 800;
+    margin-top: 20px;
+  }
+
+  .answers{ 
+    display: flex;
+    flex-direction: column;
+    line-height: 30px;
+    font-size: 22px;
+    text-align:left;
+    margin-top: 20px;
+    margin-left: 30px;
+    padding: 20px;
+    padding: 0;
+  }
+
+  .slide{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .active-slide{
+    opacity: 1;
+    z-index: 2;
+  }
+  .quiz-container{
+    position: relative;
+    height: 200px;
+    margin-top: 40px;
+  }
+    
