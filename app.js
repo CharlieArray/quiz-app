@@ -1,110 +1,12 @@
-
 (function(){
 
-// Function for Quiz Visualization and Output of Quizzes/Answers
-function buildQuiz(){
-  //stores HTML output
-  const output = [];
-
-  myQuestions.forEach( (currentQuestion, questionNumber) => {
-
-    //variable to store possible answers 
-    const answers = [];
-
-    // for each avaiable answer
-    for(letter in currentQuestion.answers){
-      answers.push(
-        `<label>
-          <input type="radio" name="question${questionNumber}" value="${letter}">
-            ${letter} :
-            ${currentQuestion.answers[letter]}
-        </label>`
-        );
-    }
-
-    // adds the question and answers to the output
-    output.push(
-      `<div class="slide">
-        <div class="question"> ${currentQuestion.question} </div>
-        <div class="answers"> ${answers.join("")} </div>
-      </div>`
-    );
-  }
-);
-
-  //combines output list into one string of HTML and puts it on the page
-  quizContainer.innerHTML = output.join('');
-}
   
-
-function showResults(){
-  //variable to gather answer containers from quiz
-  const answerContainers = quizContainer.querySelectorAll('.answers');
-
-  //variable to track users correct answers
-  let numCorrect = 0;
-
-  //loop through each question
-  myQuestions.forEach( (currentQuestion, questionNumber) => {
-    
-    //finds selected answer
-    const answerContainer = answerContainers[questionNumber];
-    const selector = `input[name=question${questionNumber}]:checked`;
-    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
-    // if user answer is correct
-    if(userAnswer === currentQuestion.correctAnswer){
-      numCorrect++;
-
-    //styling to make correct answers green
-    answerContainers[questionNumber].style.color = 'light green';
-    }
-
-  //else if statement if wrong answer 
-  else{
-    // color the answers red
-    answerContainers[questionNumber].style.color = 'red';
-  }
-});
-
-// show number of correct answers out of total
-resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
-}
-
-function showSlide(n) {
-  slides[currentSlide].classList.remove('active-slide');
-  slides[n].classList.add('active-slide');
-  currentSlide = n;
-  if(currentSlide === 0){
-    previousButton.style.display = 'none';
-  }
-  else{
-    previousButton.style.display = 'inline-block';
-  }
-  if(currentSlide === slides.length-1){
-    nextButton.style.display = 'none';
-    submitButton.style.display = 'inline-block';
-  }
-  else{
-    nextButton.style.display = 'inline-block';
-    submitButton.style.display = 'none';
-  }
-}
-
-function showNextSlide() {
-  showSlide(currentSlide + 1);
-}
-
-function showPreviousSlide() {
-  showSlide(currentSlide - 1);
-}
-
 
 //HTML elements stored as variables//
 const quizContainer = document.getElementById('quiz');
 const resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
-const myQuestions = [
+const store = [
   {
     question: "Like real estate, gold and cash, stocks are _____ and owning stock means you are _____ of the company.",
     answers: {
@@ -181,7 +83,148 @@ const myQuestions = [
     correctAnswer: "c"
   }
 
+
 ];
+
+/********** TEMPLATE GENERATION FUNCTIONS **********/
+  
+
+//Intro Welcome String and Begin Quiz Button
+
+
+function generateWelcomeString() {
+  return `
+  <div class="welcome">
+    <form>
+      <p>
+        Welcome User. Begin the quiz by pressing the button.
+      </p>
+      
+      <button type="submit"id="beginQuiz" autofocus>Begin Quiz</button>
+    </form>
+  </div>
+    `;
+}
+
+
+// Function for Quiz Visualization and Output of Quizzes/Answers
+function buildQuiz(){
+  //stores HTML output
+  const output = [];
+
+const welcomeString = generateWelcomeString();
+
+// adds welcomeString to HTML 
+$('main').html(welcomeString);
+
+
+
+  store.forEach( (currentQuestion, questionNumber) => {
+
+    //variable to store possible answers 
+    const answers = [];
+
+    // for each avaiable answer
+    for(letter in currentQuestion.answers){
+      answers.push(
+        `<form>
+          <input type="radio" name="question${questionNumber}" value="${letter}">
+            ${letter} :
+            ${currentQuestion.answers[letter]}
+        </form>`
+        );
+    }
+
+    // adds the question and answers to the output
+    output.push(
+      `<div class="slide">
+        <div class="question"> ${currentQuestion.question} </div>
+        <div class="answers"> ${answers.join("")} </div>
+      </div>`
+    );
+  }
+);
+
+  //combines output list into one string of HTML and puts it on the page
+  quizContainer.innerHTML = output.join('');
+}
+  
+
+function showResults(){
+  //variable to gather answer containers from quiz
+  const answerContainers = quizContainer.querySelectorAll('.answers');
+
+  //variable to track users correct answers
+  let numCorrect = 0;
+
+  //loop through each question
+  store.forEach( (currentQuestion, questionNumber) => {
+    
+    //finds selected answer
+    const answerContainer = answerContainers[questionNumber];
+    const selector = `input[name=question${questionNumber}]:checked`;
+    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+    // if user answer is correct
+    if(userAnswer === currentQuestion.correctAnswer){
+      numCorrect++;
+      }
+
+
+     //CURRENTLY INPROGRESS// 
+      /*function ifIncorrect(){
+    // if user answer is incorrect
+    if(userAnswer != currentQuestion.correctAnswer) {
+         $('.quiz-container').append('Correct answer is');
+      }
+    }
+  
+  nextButton.addEventListener('click', ifIncorrect);
+  */
+
+});
+
+
+// show number of correct answers out of total
+resultsContainer.innerHTML = `${numCorrect} out of ${store.length} correct`;
+console.log(`${store.currentQuestion} out of ${store.length}`)
+
+}
+
+function showSlide(n) {
+  $('#question_number').text("Question "+(n+1)+" out of 7");
+  //$('#question_number').write(`${numCorrect} out of ${store.length}`)
+
+  slides[currentSlide].classList.remove('active-slide');
+  slides[n].classList.add('active-slide');
+  currentSlide = n;
+  if(currentSlide === 0){
+    previousButton.style.display = 'none';
+  }
+  else{
+    previousButton.style.display = 'inline-block';
+  }
+  if(currentSlide === slides.length-1){
+    nextButton.style.display = 'none';
+    submitButton.style.display = 'inline-block';
+  }
+  else{
+    nextButton.style.display = 'inline-block';
+    submitButton.style.display = 'none';
+  }
+}
+
+function showNextSlide() {
+  showSlide(currentSlide + 1);
+}
+
+function showPreviousSlide() {
+  showSlide(currentSlide - 1);
+}
+
+function handleBeginQuizSubmit(){
+  $('welcomeString').addClass('hidden');
+};
 
 //Call Quiz Function right away//
 buildQuiz();
@@ -190,21 +233,25 @@ buildQuiz();
  const previousButton = document.getElementById("previous");
  const nextButton = document.getElementById("next");
  const slides = document.querySelectorAll(".slide");
+ const beginButton = document.getElementById("beginQuiz");
  let currentSlide = 0;
 
 //Shows first slide 
 showSlide(currentSlide);
 
+
+  /********** EVENT HANDLER FUNCTIONS **********/
+  
+  // These functions handle events (submit, click, etc)
+
 // Event listeners
 previousButton.addEventListener("click", showPreviousSlide);
 nextButton.addEventListener("click", showNextSlide);
-submitButton.addEventListener('click', showResults);
+nextButton.addEventListener("click", showResults);
+beginButton.addEventListener("click", handleBeginQuizSubmit);
+submitButton.addEventListener('click', showResults, );
 
 })();
-
-
-
-
 
 
   /**
@@ -222,16 +269,10 @@ submitButton.addEventListener('click', showResults);
    * 
    */
   
-  /********** TEMPLATE GENERATION FUNCTIONS **********/
-  
-  // These functions return HTML templates
+
   
   /********** RENDER FUNCTION(S) **********/
   
   // This function conditionally replaces the contents of the <main> tag based on the state of the store
   
-  /********** EVENT HANDLER FUNCTIONS **********/
-  
-  // These functions handle events (submit, click, etc)
-
 
