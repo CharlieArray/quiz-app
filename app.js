@@ -1,6 +1,5 @@
 (function(){
 
-  
 
 //HTML elements stored as variables//
 const quizContainer = document.getElementById('quiz');
@@ -245,8 +244,6 @@ function showPreviousSlide() {
 }
 
 
-//Call Quiz Function right away//
-//buildQuiz();
 
  // Pagination
  const previousButton = document.getElementById("previous");
@@ -269,8 +266,6 @@ nextButton.addEventListener("click", showNextSlide);
 nextButton.addEventListener("click", showResults);
 beginButton.addEventListener("click", handleBeginQuizSubmit);
 submitButton.addEventListener('click', showResults, );
-
-
 
 
 

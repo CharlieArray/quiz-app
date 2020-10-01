@@ -1,8 +1,5 @@
-
-html {
-  min-width: 550px;
-  position: relative;
-  }
+@media only screen and (min-device-width: 450px) 
+and (max-device-height: 736px) and (-webkit-device-pixel-ratio: 3) { }
 
 
   body {
@@ -65,7 +62,6 @@ html {
     flex-direction: column;
     border: medium solid grey;
     background-color: lightblue;
-    line-height: 40px;
     font-size: 22px;
     text-align:left;
     margin-top: 20px;
@@ -75,7 +71,7 @@ html {
   }
 
   form{
-    line-height: 35px;
+    line-height: 25px;
   }
 
   .slide{
