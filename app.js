@@ -64,7 +64,7 @@ const store = [
     question: "When investing over a long period of time, what is the most successful strategy?",
     answers: {
       a: "buying stock all at once",
-      b: "dollar Cost Averaging (DCA), meaning you buy a fixed dollar amount of stock over x-period of time",
+      b: "dollar cost averaging (DCA), meaning you buy a fixed dollar amount of stock over x-period of time",
       c: "buying penny stocks",
       d: "never investing",
     },
@@ -103,7 +103,7 @@ function generateWelcomeString() {
 }
 
 
-// Function for Quiz Visualization and Output of Quizzes/Answers to HTML file
+// Function to Render Store and Quiz Container Elements to HTML file
 function buildQuiz(){
   console.log('`buildQuiz` ran');
 
@@ -154,7 +154,7 @@ $('main').prepend(welcomeString);
 buildQuiz();
 
 // Function for hiding/unhiding WelcomeString and Quiz
-function handleBeginQuizSubmit(){
+function handleBeginQuizPrompt(){
   console.log('`handleBeginQuizSubmit` ran');
   $('#welcome').hide(); 
   $('#quiz').removeClass('hidden');
@@ -267,9 +267,8 @@ showSlide(currentSlide);
 previousButton.addEventListener("click", showPreviousSlide);
 nextButton.addEventListener("click", showNextSlide);
 nextButton.addEventListener("click", showResults);
-beginButton.addEventListener("click", handleBeginQuizSubmit);
+beginButton.addEventListener("click", handleBeginQuizPrompt);
 submitButton.addEventListener('click', showResults, );
-
 
 
 })();
