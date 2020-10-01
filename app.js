@@ -12,7 +12,7 @@ const store = [
       a: "forms of money, part owner",
       b: "an asset class, part owner",
       c: "pieces of paper, part owner",
-      d: "all the above"
+      d: "currency, part owner"
     },
     correctAnswer: "b"
   },
@@ -21,10 +21,10 @@ const store = [
   {
     question: "What is the primary difference between the S&P 500 index vs DOW Jones Industrial (DJI) index?",
     answers: {
-      a: "DOW Jones stocks are more important because the index price is larger than S&P 500",
-      b: "S&P500 stocks are more important",
-      c: "S&P500 is market cap weighted index vs DJI which is price weighted index",
-      d: "DOW Jones stocks are more important"
+      a: "the DOW Jones stocks are more important because the index price is larger than S&P 500",
+      b: "the S&P500 stocks are more important",
+      c: "the S&P500 is market cap weighted index vs DJI which is price weighted index",
+      d: "the DOW Jones stocks are more important"
     },
     correctAnswer: "c"
   },
@@ -43,10 +43,10 @@ const store = [
   {
     question: "When looking at two different companies by their stock, how can you tell which company is larger/more valuable?",
     answers: {
-      a: "The company with the higher stock price is larger/more valuable",
-      b: "The company with the larger market cap is larger/more valuable",
-      c: "The company with the more recognizable name",
-      d: "The company with the most amount of shares"
+      a: "the company with the higher stock price is larger/more valuable",
+      b: "the company with the larger market cap is larger/more valuable",
+      c: "the company with the more recognizable name",
+      d: "the company with the most amount of shares"
     },
     correctAnswer: "b"
   },
@@ -54,8 +54,8 @@ const store = [
   {
     question: "Does a stock with a low share price mean it has more potential upside to increase in value?",
     answers: {
-      a: "Yes always",
-      b: "No"
+      a: "yes, most likely",
+      b: "no, not always"
     },
     correctAnswer: "b"
   },
@@ -63,10 +63,10 @@ const store = [
   {
     question: "When investing over a long period of time, what is the most successful strategy?",
     answers: {
-      a: "Buying stock all at once",
-      b: "Dollar Cost Averaging (DCA), meaning you buy a fixed dollar amount of stock over x-period of time",
-      c: "Buying penny stocks",
-      d: "Never investing",
+      a: "buying stock all at once",
+      b: "dollar Cost Averaging (DCA), meaning you buy a fixed dollar amount of stock over x-period of time",
+      c: "buying penny stocks",
+      d: "never investing",
     },
     correctAnswer: "b"
   },
@@ -88,8 +88,7 @@ const store = [
 /********** TEMPLATE GENERATION FUNCTIONS **********/
   
 
-//Intro Welcome String and Begin Quiz Button
-
+//Function to display in HTML 'Begin Quiz' Prompt/Button
 function generateWelcomeString() {
   return `
   <div id ="welcome" class="welcome">
@@ -104,14 +103,15 @@ function generateWelcomeString() {
 }
 
 
-// Function for Quiz Visualization and Output of Quizzes/Answers
+// Function for Quiz Visualization and Output of Quizzes/Answers to HTML file
 function buildQuiz(){
   console.log('`buildQuiz` ran');
 
   //stores HTML output
   const output = [];
 
-const welcomeString = generateWelcomeString();
+  // declare variable for Welcomestring function outside function
+  const welcomeString = generateWelcomeString();
 
 //hides quiz elements and adds welcomeString to HTML 
 $('#quiz').addClass('hidden');
@@ -129,7 +129,7 @@ $('main').prepend(welcomeString);
     for(letter in currentQuestion.answers){
       answers.push(
         `<form>
-          <input type="radio" name="question${questionNumber}" value="${letter}">
+          <input type="radio" name="invest" id="question${questionNumber}" value="${letter}">
             ${letter} :
             ${currentQuestion.answers[letter]}
         </form>`
@@ -153,6 +153,7 @@ $('main').prepend(welcomeString);
 //Call Quiz Function right away//
 buildQuiz();
 
+// Function for hiding/unhiding WelcomeString and Quiz
 function handleBeginQuizSubmit(){
   console.log('`handleBeginQuizSubmit` ran');
   $('#welcome').hide(); 
@@ -161,8 +162,7 @@ function handleBeginQuizSubmit(){
   $('#next').removeClass('hidden')
  };
 
-
-
+// Function to calculate results of Quiz
 function showResults(){
   console.log('`showResults` ran');
 
@@ -178,7 +178,7 @@ function showResults(){
     
     //finds selected answer
     const answerContainer = answerContainers[questionNumber];
-    const selector = `input[name=question${questionNumber}]:checked`;
+    const selector = `input[id=question${questionNumber}]:checked`;
     const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 
     // if user answer is correct
@@ -194,7 +194,7 @@ function showResults(){
          $('.quiz-container').append('Correct answer is');
       }
     }
-  
+
   nextButton.addEventListener('click', ifIncorrect);
   */
 
@@ -207,10 +207,14 @@ console.log(`${store.currentQuestion} out of ${store.length}`)
 
 }
 
+
+//Function to showSlide 
 function showSlide(n) {
+  
   
   //Displays question number "x" out of "y" questions in Quiz
   $('#question_number').text("Question "+(n+1)+" out of 7");
+  
   //$('#question_number').write(`${numCorrect} out of ${store.length}`)
 
   slides[currentSlide].classList.remove('active-slide');
@@ -242,7 +246,6 @@ function showPreviousSlide() {
   console.log('`showPreviousSlide` ran');
   showSlide(currentSlide - 1);
 }
-
 
 
  // Pagination
