@@ -104,8 +104,8 @@ function generateWelcomeString() {
 
 
 // Function to Render Store and Quiz Container Elements to HTML file
-function buildQuiz(){
-  console.log('`buildQuiz` ran');
+function renderQuiz(){
+  console.log('`renderQuiz` ran');
 
   //stores HTML output
   const output = [];
@@ -150,8 +150,8 @@ $('main').prepend(welcomeString);
   quizContainer.innerHTML = output.join('');
 }
   
-//Call Quiz Function right away//
-buildQuiz();
+//Render Quiz Function right away//
+renderQuiz();
 
 // Function for hiding/unhiding WelcomeString and Quiz
 function handleBeginQuizPrompt(){
@@ -186,21 +186,17 @@ function showResults(){
       numCorrect++;
       }
 
+      /*
+    else if(userAnswer != currentQuestion.correctAnswer){
+      $('#question_number').append(":correct answer was");
+      } 
+      */
 
-     //CURRENTLY INPROGRESS// 
-      /*function ifIncorrect(){
-    // if user answer is incorrect
-    if(userAnswer != currentQuestion.correctAnswer) {
-         $('.quiz-container').append('Correct answer is');
-      }
-    }
-
-  nextButton.addEventListener('click', ifIncorrect);
-  */
-
-});
+  });
 
 
+
+  
 // show number of correct answers out of total
 resultsContainer.innerHTML = `${numCorrect} out of ${store.length} correct`;
 console.log(`${store.currentQuestion} out of ${store.length}`)
@@ -270,6 +266,21 @@ nextButton.addEventListener("click", showResults);
 beginButton.addEventListener("click", handleBeginQuizPrompt);
 submitButton.addEventListener('click', showResults, );
 
+//Init function to run functions after document loaded
+/*
+  function quizReady(){
+    generateWelcomeString();
+    renderQuiz();
+    handleBeginQuizPrompt();
+    showResults();
+    showSlide(n);
+    showNextSlide();
+    showPreviousSlide();
+  }
+
+  quizReady()
+*/
+
 
 })();
 
@@ -287,7 +298,7 @@ The following requirements cover what the app must do, from the user's perspecti
         COMPLETE-Users should be asked questions 1 after the other.
         COMPLETE-Users should only be prompted with 1 question at a time.
     -Users should not be able to skip questions.
-    1/2-Users should also be able to see which question they're on (for instance, "7 out of 10") and their current score ("5 correct, 2 incorrect").
+    COMPLETE-Users should also be able to see which question they're on (for instance, "7 out of 10") and their current score ("5 correct, 2 incorrect").
     -Upon submitting an answer, users should:
         -receive textual feedback about their answer. If they were incorrect, they should be told the correct answer.
         -be moved onto the next question (or interact with an element to move on).
