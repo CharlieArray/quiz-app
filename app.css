@@ -1,5 +1,10 @@
 
- 
+html {
+  min-width: 550px;
+  position: relative;
+  }
+
+
   body {
     margin: 0;
     background-color: burlywood;
@@ -17,15 +22,19 @@
     text-decoration: underline;
   }
 
+  button{
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
   .hidden {
-    display: none;
+    display: none !important;
   }
 
   .welcome{
     display: block;
     text-align: center;
   }
-
 
   .quiz-container{
     display: block;
@@ -40,22 +49,33 @@
     text-align: center;
   }
 
-  .question{ 
+  div.question{ 
     font-size: 26px;
+    border: thin solid black;
+    padding: 1%;
+    background-color: lightblue;
+    margin-left: 10px;
+    margin-right: 10px;
     font-weight: 800;
     margin-top: 20px;
   }
 
-  .answers{ 
+  div.answers{ 
     display: flex;
     flex-direction: column;
+    border: medium solid grey;
+    background-color: lightblue;
     line-height: 40px;
     font-size: 22px;
     text-align:left;
     margin-top: 20px;
     margin-left: 30px;
-    padding: 20px;
-    padding: 0;
+    margin-right: 30px;
+    padding: .5%;
+  }
+
+  form{
+    line-height: 35px;
   }
 
   .slide{

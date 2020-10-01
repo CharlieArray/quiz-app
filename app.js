@@ -91,16 +91,14 @@ const store = [
 
 //Intro Welcome String and Begin Quiz Button
 
-
 function generateWelcomeString() {
   return `
-  <div class="welcome">
+  <div id ="welcome" class="welcome">
     <form>
       <p>
         Welcome User. Begin the quiz by pressing the button.
       </p>
-      
-      <button type="submit"id="beginQuiz" autofocus>Begin Quiz</button>
+      <button type="button"id="beginQuiz" autofocus>Begin Quiz</button>
     </form>
   </div>
     `;
@@ -109,14 +107,18 @@ function generateWelcomeString() {
 
 // Function for Quiz Visualization and Output of Quizzes/Answers
 function buildQuiz(){
+  console.log('`buildQuiz` ran');
+
   //stores HTML output
   const output = [];
 
 const welcomeString = generateWelcomeString();
 
-// adds welcomeString to HTML 
-$('main').html(welcomeString);
-
+//hides quiz elements and adds welcomeString to HTML 
+$('#quiz').addClass('hidden');
+$('#question_number').addClass('hidden');
+$('#next').addClass('hidden');
+$('main').prepend(welcomeString);
 
 
   store.forEach( (currentQuestion, questionNumber) => {
@@ -149,8 +151,23 @@ $('main').html(welcomeString);
   quizContainer.innerHTML = output.join('');
 }
   
+//Call Quiz Function right away//
+buildQuiz();
+
+function handleBeginQuizSubmit(){
+  console.log('`handleBeginQuizSubmit` ran');
+  $('#welcome').hide(); 
+  $('#quiz').removeClass('hidden');
+  $('#question_number').removeClass('hidden');
+  $('#next').removeClass('hidden')
+ };
+
+
 
 function showResults(){
+  console.log('`showResults` ran');
+
+
   //variable to gather answer containers from quiz
   const answerContainers = quizContainer.querySelectorAll('.answers');
 
@@ -192,6 +209,8 @@ console.log(`${store.currentQuestion} out of ${store.length}`)
 }
 
 function showSlide(n) {
+  
+  //Displays question number "x" out of "y" questions in Quiz
   $('#question_number').text("Question "+(n+1)+" out of 7");
   //$('#question_number').write(`${numCorrect} out of ${store.length}`)
 
@@ -215,19 +234,19 @@ function showSlide(n) {
 }
 
 function showNextSlide() {
+  console.log('`showNextSlide` ran');
+
   showSlide(currentSlide + 1);
 }
 
 function showPreviousSlide() {
+  console.log('`showPreviousSlide` ran');
   showSlide(currentSlide - 1);
 }
 
-function handleBeginQuizSubmit(){
-  $('welcomeString').addClass('hidden');
-};
 
 //Call Quiz Function right away//
-buildQuiz();
+//buildQuiz();
 
  // Pagination
  const previousButton = document.getElementById("previous");
@@ -251,22 +270,55 @@ nextButton.addEventListener("click", showResults);
 beginButton.addEventListener("click", handleBeginQuizSubmit);
 submitButton.addEventListener('click', showResults, );
 
+
+
+
+
 })();
 
 
   /**
-   * 
-   * Technical requirements:
-   * 
-   * Your app should include a render() function, that regenerates the view each time the store is updated. 
-   * See your course material and access support for more details.
-   *
-   * NO additional HTML elements should be added to the index.html file.
-   *
-   * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
-   *
-   * SEE BELOW FOR THE CATEGORIES OF THE TYPES OF FUNCTIONS YOU WILL BE CREATING 👇
-   * 
+ Project Requirements
+
+While you're building your quiz app, you'll need to keep in mind what your app must do and how it should be built.
+User experience requirements
+
+The following requirements cover what the app must do, from the user's perspective.
+
+    COMPLETE-The starting screen should have a button that users can click to start the quiz.
+    COMPLETE-Users should be prompted through a series of at least 5 multiple choice questions that they can answer.
+        COMPLETE-Users should be asked questions 1 after the other.
+        COMPLETE-Users should only be prompted with 1 question at a time.
+    -Users should not be able to skip questions.
+    1/2-Users should also be able to see which question they're on (for instance, "7 out of 10") and their current score ("5 correct, 2 incorrect").
+    -Upon submitting an answer, users should:
+        -receive textual feedback about their answer. If they were incorrect, they should be told the correct answer.
+        -be moved onto the next question (or interact with an element to move on).
+    -Users should be shown their overall score at the end of the quiz. In other words, how many questions they got right out of the total questions asked.
+    -Users should be able to start a new quiz.
+        function startNewQuiz(){
+          -define variables if variables/objects outside of function
+          -conditional statement: if currentquestion == store.length && user hits next button, {1) unhide restartQuiz button) }
+          } >>if user clicks on restartQuiz button, an event listener is triggered that executes a callback function that refreshes the page. 
+
+
+Technical requirements
+
+Your quiz app must:
+
+    -Include a render() function, that conditionally regenerates the view each time the store is updated.
+    -Include single-purpose template generation functions.
+    DONE?-Include single-purpose event handler functions.
+    -Call all functions from a jQuery initializing function.
+    -NOT add additional HTML elements to the boilerplate code's index.html file 
+        (you may add attributes, e.g., classes and ids, to the existing HTML elements, or link stylesheets or additional scripts if necessary).
+    -Render answer choices in a <form>.
+    -Use semantic HTML, along with CSS and jQuery.
+    -Follow a11y best practices.
+    -Be fully usable by keyboard (which will be easy enough if you start with a form).
+    -Use responsive design.
+        Refer back to the previous checkpoints on responsive design and forms for any help with the HTML/CSS materials.
+
    */
   
 
