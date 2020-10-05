@@ -1,4 +1,4 @@
-(function(){
+//(function(){
 
 
 //HTML elements stored as variables//
@@ -87,7 +87,6 @@ const store = [
 
 /********** TEMPLATE GENERATION FUNCTIONS **********/
   
-
 //Function to display in HTML 'Begin Quiz' Prompt/Button
 function generateWelcomeString() {
   return `
@@ -102,7 +101,18 @@ function generateWelcomeString() {
     `;
 }
 
+// Function for hiding/unhiding WelcomeString and Quiz
+function handleBeginQuizPrompt(){
+  console.log('`handleBeginQuizSubmit` ran');
+  $('#welcome').hide(); 
+  $('#quiz').removeClass('hidden');
+  $('#question_number').removeClass('hidden');
+  $('#next').removeClass('hidden')
+ };
 
+
+  /********** RENDER FUNCTION(S) **********/
+    
 // Function to Render Store and Quiz Container Elements to HTML file
 function renderQuiz(){
   console.log('`renderQuiz` ran');
@@ -149,26 +159,18 @@ $('main').prepend(welcomeString);
   //combines output list into one string of HTML and puts it on the page
   quizContainer.innerHTML = output.join('');
 }
-  
-//Render Quiz Function right away//
-renderQuiz();
 
-// Function for hiding/unhiding WelcomeString and Quiz
-function handleBeginQuizPrompt(){
-  console.log('`handleBeginQuizSubmit` ran');
-  $('#welcome').hide(); 
-  $('#quiz').removeClass('hidden');
-  $('#question_number').removeClass('hidden');
-  $('#next').removeClass('hidden')
- };
+//Render Quiz Function right away//
+//renderQuiz();
 
 // Function to calculate results of Quiz
 function showResults(){
   console.log('`showResults` ran');
 
+  let quizContainer = document.getElementById('quiz');
 
   //variable to gather answer containers from quiz
-  const answerContainers = quizContainer.querySelectorAll('.answers');
+  let answerContainers = quizContainer.querySelectorAll('.answers');
 
   //variable to track users correct answers
   let numCorrect = 0;
@@ -180,10 +182,13 @@ function showResults(){
     const answerContainer = answerContainers[questionNumber];
     const selector = `input[id=question${questionNumber}]:checked`;
     const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
+    
     // if user answer is correct
     if(userAnswer === currentQuestion.correctAnswer){
       numCorrect++;
+
+      // $('correctAnswer').css('color','green');
+
       }
 
       /*
@@ -196,23 +201,25 @@ function showResults(){
 
 
 
-  
 // show number of correct answers out of total
+let resultsContainer = document.getElementById('results');
+
 resultsContainer.innerHTML = `${numCorrect} out of ${store.length} correct`;
 console.log(`${store.currentQuestion} out of ${store.length}`)
 
 }
 
+//Function to Show Slide
+function showSlide() {
+  var previousButton = document.getElementById("previous");
+  var nextButton = document.getElementById("next");
+  var slides = document.querySelectorAll(".slide");
 
-//Function to showSlide 
-function showSlide(n) {
-  
-  
+  console.log('`showSlide n` ran')
+
   //Displays question number "x" out of "y" questions in Quiz
   $('#question_number').text("Question "+(n+1)+" out of 7");
   
-  //$('#question_number').write(`${numCorrect} out of ${store.length}`)
-
   slides[currentSlide].classList.remove('active-slide');
   slides[n].classList.add('active-slide');
   currentSlide = n;
@@ -232,57 +239,109 @@ function showSlide(n) {
   }
 }
 
+//Function to Show Next Slide 
 function showNextSlide() {
   console.log('`showNextSlide` ran');
-
   showSlide(currentSlide + 1);
 }
 
+//Function to Show Previous Slide 
 function showPreviousSlide() {
   console.log('`showPreviousSlide` ran');
   showSlide(currentSlide - 1);
 }
 
-
  // Pagination
- const previousButton = document.getElementById("previous");
- const nextButton = document.getElementById("next");
- const slides = document.querySelectorAll(".slide");
- const beginButton = document.getElementById("beginQuiz");
- let currentSlide = 0;
+ //const previousButton = document.getElementById("previous");
+ //const nextButton = document.getElementById("next");
+ //const slides = document.querySelectorAll(".slide");
+ //const beginButton = document.getElementById("beginQuiz");
+ 
+
+ // Shows first slide
+ function showFirstSlide(){
+  let currentSlide = 0;
+  let showSlideVar = showSlide();
+  showSlideVar(currentSlide); 
+ }
 
 //Shows first slide 
-showSlide(currentSlide);
-
+//showSlide(currentSlide);
 
   /********** EVENT HANDLER FUNCTIONS **********/
-  
   // These functions handle events (submit, click, etc)
 
-// Event listeners
-previousButton.addEventListener("click", showPreviousSlide);
-nextButton.addEventListener("click", showNextSlide);
-nextButton.addEventListener("click", showResults);
-beginButton.addEventListener("click", handleBeginQuizPrompt);
-submitButton.addEventListener('click', showResults, );
+// Event listeners 
+//previousButton.addEventListener("click", showPreviousSlide);
+//nextButton.addEventListener("click", showNextSlide);
+//nextButton.addEventListener("click", showResults);
+//beginButton.addEventListener("click", handleBeginQuizPrompt);
+//submitButton.addEventListener('click', showResults, );
+
+function handlePreviousButton(){
+    $('main').on('click', '#previous', (event) =>{
+    event.preventDefault();
+    showPreviousSlide();
+    renderQuiz();
+  });
+}
+
+function handleNextButton(){
+  $('main').on('click', '#next', (event) =>{
+  event.preventDefault();
+  showNextSlide();
+  renderQuiz();
+});
+}
+
+function handleNextButtonShowResults(){
+  $('main').on('click', '#next', (event) =>{
+  event.preventDefault();
+  showResults();
+  renderQuiz();
+});
+}
+
+function handleBeginButton(){
+  $('main').on('click', '#beginQuiz', (event) =>{
+  event.preventDefault();
+  handleBeginQuizPrompt();
+  renderQuiz();
+});
+}
+
+function handleSubmitButton(){
+  $('main').on('click', '#submit', (event) =>{
+  event.preventDefault();
+  showResults();
+  renderQuiz();
+});
+}
+
+
 
 //Init function to run functions after document loaded
-/*
+
   function quizReady(){
-    generateWelcomeString();
     renderQuiz();
-    handleBeginQuizPrompt();
+    showFirstSlide();
     showResults();
-    showSlide(n);
+    showSlide();
     showNextSlide();
     showPreviousSlide();
+    handlePreviousButton();
+    handleNextButton();
+    handleNextButtonShowResults();
+    handleBeginButton();
+    handleSubmitButton();
   }
 
-  quizReady()
-*/
+  quizReady();
 
 
-})();
+//})();
+
+
 
 
   /**
@@ -297,9 +356,9 @@ The following requirements cover what the app must do, from the user's perspecti
     COMPLETE-Users should be prompted through a series of at least 5 multiple choice questions that they can answer.
         COMPLETE-Users should be asked questions 1 after the other.
         COMPLETE-Users should only be prompted with 1 question at a time.
-    -Users should not be able to skip questions.
+    NEED HELP -Users should not be able to skip questions.
     COMPLETE-Users should also be able to see which question they're on (for instance, "7 out of 10") and their current score ("5 correct, 2 incorrect").
-    -Upon submitting an answer, users should:
+    -NEED HELP Upon submitting an answer, users should:
         -receive textual feedback about their answer. If they were incorrect, they should be told the correct answer.
         -be moved onto the next question (or interact with an element to move on).
     -Users should be shown their overall score at the end of the quiz. In other words, how many questions they got right out of the total questions asked.
@@ -309,7 +368,12 @@ The following requirements cover what the app must do, from the user's perspecti
           -conditional statement: if currentquestion == store.length && user hits next button, {1) unhide restartQuiz button) }
           } >>if user clicks on restartQuiz button, an event listener is triggered that executes a callback function that refreshes the page. 
 
+    NEED HELP -Users should not be able to skip questions.
 
+    NEED HELP Upon submitting an answer, users should:
+        -receive textual feedback about their answer. If they were incorrect, they should be told the correct answer.
+        -be moved onto the next question (or interact with an element to move on).
+        
 Technical requirements
 
 Your quiz app must:
@@ -328,11 +392,5 @@ Your quiz app must:
         Refer back to the previous checkpoints on responsive design and forms for any help with the HTML/CSS materials.
 
    */
-  
-
-  
-  /********** RENDER FUNCTION(S) **********/
-  
-  // This function conditionally replaces the contents of the <main> tag based on the state of the store
   
 
