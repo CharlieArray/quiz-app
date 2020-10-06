@@ -210,19 +210,21 @@ console.log(`${store.currentQuestion} out of ${store.length}`)
 }
 
 //Function to Show Slide
-function showSlide() {
+function showSlide(currentSlide) {
+
+  console.log('`showSlide (currentSlide)` ran')
+
   var previousButton = document.getElementById("previous");
   var nextButton = document.getElementById("next");
   var slides = document.querySelectorAll(".slide");
 
-  console.log('`showSlide n` ran')
-
+  //currentSlide = n;
   //Displays question number "x" out of "y" questions in Quiz
-  $('#question_number').text("Question "+(n+1)+" out of 7");
+  $('#question_number').text("Question "+(currentSlide+1)+" out of 7");
   
   slides[currentSlide].classList.remove('active-slide');
-  slides[n].classList.add('active-slide');
-  currentSlide = n;
+  slides[currentSlide].classList.add('active-slide');
+ 
   if(currentSlide === 0){
     previousButton.style.display = 'none';
   }
@@ -261,8 +263,7 @@ function showPreviousSlide() {
  // Shows first slide
  function showFirstSlide(){
   let currentSlide = 0;
-  let showSlideVar = showSlide();
-  showSlideVar(currentSlide); 
+  showSlide(currentSlide); 
  }
 
 //Shows first slide 
@@ -278,62 +279,62 @@ function showPreviousSlide() {
 //beginButton.addEventListener("click", handleBeginQuizPrompt);
 //submitButton.addEventListener('click', showResults, );
 
-function handlePreviousButton(){
-    $('main').on('click', '#previous', (event) =>{
+
+//Setting Up Event Listener
+function handlePreviousSlide(){
+  $('main').on('click', '#previous', (event) =>{
     event.preventDefault();
     showPreviousSlide();
     renderQuiz();
   });
 }
 
-function handleNextButton(){
+function handleNextSlide(){
   $('main').on('click', '#next', (event) =>{
-  event.preventDefault();
-  showNextSlide();
-  renderQuiz();
-});
+    event.preventDefault();
+    showNextSlide();
+    renderQuiz();
+  });
 }
 
-function handleNextButtonShowResults(){
+function handleNextSlideShowResults(){
   $('main').on('click', '#next', (event) =>{
-  event.preventDefault();
-  showResults();
-  renderQuiz();
-});
+    event.preventDefault();
+    showResults();
+    renderQuiz();
+  });
 }
 
-function handleBeginButton(){
+function handleBeginSlide(){
+  console.log('`handleBeginSlide` ran');
+
   $('main').on('click', '#beginQuiz', (event) =>{
-  event.preventDefault();
-  handleBeginQuizPrompt();
-  renderQuiz();
-});
+    event.preventDefault();
+    handleBeginQuizPrompt();
+    renderQuiz();
+  });
 }
 
-function handleSubmitButton(){
+function handleSubmitSlide(){
   $('main').on('click', '#submit', (event) =>{
-  event.preventDefault();
-  showResults();
-  renderQuiz();
-});
+    event.preventDefault();
+    showResults();
+    renderQuiz();
+  });
 }
-
 
 
 //Init function to run functions after document loaded
 
   function quizReady(){
     renderQuiz();
+    handleBeginSlide();
     showFirstSlide();
     showResults();
-    showSlide();
-    showNextSlide();
-    showPreviousSlide();
-    handlePreviousButton();
-    handleNextButton();
-    handleNextButtonShowResults();
-    handleBeginButton();
-    handleSubmitButton();
+    handlePreviousSlide();
+    handleNextSlide();
+    handleNextSlideShowResults();
+    handleSubmitSlide();
   }
 
   quizReady();
