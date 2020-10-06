@@ -108,6 +108,7 @@ function handleBeginQuizPrompt(){
   $('#welcome').hide(); 
   $('#quiz').removeClass('hidden');
   $('#question_number').removeClass('hidden');
+  $('#results').removeClass('hidden')
   $('#next').removeClass('hidden')
  };
 
@@ -129,6 +130,7 @@ function renderQuiz(){
 $('#quiz').addClass('hidden');
 $('#question_number').addClass('hidden');
 $('#next').addClass('hidden');
+$('#results').addClass('hidden')
 $('main').prepend(welcomeString);
 
 
@@ -215,6 +217,7 @@ console.log(`${store.currentQuestion} out of ${store.length}`)
 function showSlide(currentSlide) {
 
   console.log('`showSlide (currentSlide)` ran')
+  console.log("current slide is "+currentSlide)
 
   var previousButton = document.getElementById("previous");
   var nextButton = document.getElementById("next");
@@ -263,7 +266,7 @@ function showPreviousSlide() {
 
  // Shows first slide
  function showFirstSlide(){
-  let currentSlide = 0;
+  currentSlide = 0;
   showSlide(currentSlide); 
  }
 
@@ -294,7 +297,7 @@ function handleNextSlide(){
   $('main').on('click', '#next', (event) =>{
     event.preventDefault();
     showNextSlide();
-    renderQuiz();
+    //renderQuiz();
   });
 }
 
@@ -302,7 +305,7 @@ function handleNextSlideShowResults(){
   $('main').on('click', '#next', (event) =>{
     event.preventDefault();
     showResults();
-    renderQuiz();
+    //renderQuiz();
   });
 }
 
