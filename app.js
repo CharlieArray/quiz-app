@@ -1,9 +1,10 @@
-//(function(){
+(function(){
 
+let currentSlide;
 
 //HTML elements stored as variables//
 const quizContainer = document.getElementById('quiz');
-const resultsContainer = document.getElementById('results');
+let resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
 const store = [
   {
@@ -123,6 +124,7 @@ function renderQuiz(){
   // declare variable for Welcomestring function outside function
   const welcomeString = generateWelcomeString();
 
+
 //hides quiz elements and adds welcomeString to HTML 
 $('#quiz').addClass('hidden');
 $('#question_number').addClass('hidden');
@@ -202,7 +204,7 @@ function showResults(){
 
 
 // show number of correct answers out of total
-let resultsContainer = document.getElementById('results');
+ resultsContainer = document.getElementById('results');
 
 resultsContainer.innerHTML = `${numCorrect} out of ${store.length} correct`;
 console.log(`${store.currentQuestion} out of ${store.length}`)
@@ -218,7 +220,6 @@ function showSlide(currentSlide) {
   var nextButton = document.getElementById("next");
   var slides = document.querySelectorAll(".slide");
 
-  //currentSlide = n;
   //Displays question number "x" out of "y" questions in Quiz
   $('#question_number').text("Question "+(currentSlide+1)+" out of 7");
   
@@ -311,7 +312,7 @@ function handleBeginSlide(){
   $('main').on('click', '#beginQuiz', (event) =>{
     event.preventDefault();
     handleBeginQuizPrompt();
-    renderQuiz();
+    //renderQuiz();
   });
 }
 
@@ -336,11 +337,11 @@ function handleSubmitSlide(){
     handleNextSlideShowResults();
     handleSubmitSlide();
   }
-
+  
   quizReady();
 
 
-//})();
+})();
 
 
 
