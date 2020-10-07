@@ -112,6 +112,27 @@ function handleBeginQuizPrompt(){
   $('#next').removeClass('hidden')
  };
 
+// Function to hide Quiz elements and display results and 
+ function submitQuizResults(){
+    //function hides the quiz and quiz buttons
+    $('#quiz').addClass('hidden');
+    $('#question_number').addClass('hidden');
+    $('#next').addClass('hidden');
+
+    //function pushes a Quiz Results div to the html 
+    $(/*undefined*/).prepend('#results')
+
+
+    //displays score x out of total
+    (/*undefined*/).innerHTML = `${numCorrect} out of ${store.length} correct`;
+
+    //hide submit quiz button
+    //unhide a reset quiz button 
+      //(1) need to add a reset quiz button 
+      //(2) set up event handler function for reset quiz button (callback in the function will be renderQuiz)
+ }
+
+
 
   /********** RENDER FUNCTION(S) **********/
     
@@ -249,13 +270,15 @@ function showSlide(currentSlide) {
 
 //Function to Show Next Slide 
 function showNextSlide() {
-  showSlide(currentSlide + 1);
+  currentSlide = currentSlide + 1;
+  showSlide(currentSlide);
   console.log('`showNextSlide` ran');
 }
 
 //Function to Show Previous Slide 
 function showPreviousSlide() {
-  showSlide(currentSlide - 1);
+  currentSlide = currentSlide -1;
+  showSlide(currentSlide);
   console.log('`showPreviousSlide` ran');
 }
  
@@ -276,7 +299,7 @@ function handlePreviousSlide(){
   $('main').on('click', '#previous', (event) =>{
     event.preventDefault();
     showPreviousSlide();
-    renderQuiz();
+    //renderQuiz();
   });
 }
 
@@ -310,7 +333,7 @@ function handleSubmitSlide(){
   $('main').on('click', '#submit', (event) =>{
     event.preventDefault();
     showResults();
-    renderQuiz();
+    //renderQuiz();
   });
 }
 
