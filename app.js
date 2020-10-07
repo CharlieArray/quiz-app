@@ -115,18 +115,20 @@ function handleBeginQuizPrompt(){
 
   /********** RENDER FUNCTION(S) **********/
     
-// Function to Render Store and Quiz Container Elements to HTML file
+// Function to Render Store and Quiz Container Elements.
+/* Note all store questions/answers are pushed to HTML 
+  immediately when renderQuiz is ran, and cycled through via function showSlide(currentSlide) */
 function renderQuiz(){
   console.log('`renderQuiz` ran');
 
-  //stores HTML output
+  //stores HTML output of store questions/answers
   const output = [];
 
   // declare variable for Welcomestring function outside function
   const welcomeString = generateWelcomeString();
 
 
-//hides quiz elements and adds welcomeString to HTML 
+//hides quiz elements and adds welcomeString to HTML
 $('#quiz').addClass('hidden');
 $('#question_number').addClass('hidden');
 $('#next').addClass('hidden');
@@ -204,19 +206,16 @@ function showResults(){
   });
 
 
+  // show number of correct answers out of total
+  resultsContainer = document.getElementById('results');
 
-// show number of correct answers out of total
- resultsContainer = document.getElementById('results');
-
-resultsContainer.innerHTML = `${numCorrect} out of ${store.length} correct`;
-console.log(`${store.currentQuestion} out of ${store.length}`)
-
+  resultsContainer.innerHTML = `${numCorrect} out of ${store.length} correct`;
+  console.log(`${store.currentQuestion} out of ${store.length}`)
 }
 
 //Function to Show Slide
 function showSlide(currentSlide) {
 
-  console.log('`showSlide (currentSlide)` ran')
   console.log("current slide is "+currentSlide)
 
   var previousButton = document.getElementById("previous");
@@ -229,12 +228,14 @@ function showSlide(currentSlide) {
   slides[currentSlide].classList.remove('active-slide');
   slides[currentSlide].classList.add('active-slide');
  
+  // if on first slide hide previous button
   if(currentSlide === 0){
     previousButton.style.display = 'none';
   }
   else{
     previousButton.style.display = 'inline-block';
   }
+  // if current slide is == last slide, display submitButton && hide nextButton
   if(currentSlide === slides.length-1){
     nextButton.style.display = 'none';
     submitButton.style.display = 'inline-block';
@@ -243,45 +244,31 @@ function showSlide(currentSlide) {
     nextButton.style.display = 'inline-block';
     submitButton.style.display = 'none';
   }
+  console.log('`showSlide (currentSlide)` ran')
 }
 
 //Function to Show Next Slide 
 function showNextSlide() {
-  console.log('`showNextSlide` ran');
   showSlide(currentSlide + 1);
+  console.log('`showNextSlide` ran');
 }
 
 //Function to Show Previous Slide 
 function showPreviousSlide() {
-  console.log('`showPreviousSlide` ran');
   showSlide(currentSlide - 1);
+  console.log('`showPreviousSlide` ran');
 }
-
- // Pagination
- //const previousButton = document.getElementById("previous");
- //const nextButton = document.getElementById("next");
- //const slides = document.querySelectorAll(".slide");
- //const beginButton = document.getElementById("beginQuiz");
  
-
- // Shows first slide
+ // Function to Show First Slide
  function showFirstSlide(){
   currentSlide = 0;
   showSlide(currentSlide); 
+  console.log('`showFirstSlide` ran');
  }
 
-//Shows first slide 
-//showSlide(currentSlide);
 
-  /********** EVENT HANDLER FUNCTIONS **********/
-  // These functions handle events (submit, click, etc)
-
-// Event listeners 
-//previousButton.addEventListener("click", showPreviousSlide);
-//nextButton.addEventListener("click", showNextSlide);
-//nextButton.addEventListener("click", showResults);
-//beginButton.addEventListener("click", handleBeginQuizPrompt);
-//submitButton.addEventListener('click', showResults, );
+/********** EVENT HANDLER FUNCTIONS **********/
+// These functions handle events (submit, click, etc)
 
 
 //Setting Up Event Listener
