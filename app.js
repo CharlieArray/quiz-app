@@ -8,7 +8,7 @@ let resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
 const store = [
   {
-    question: "Like real estate, gold and cash, stocks are _____ and owning stock means you are _____ of the company.",
+    question: "Like real estate, gold and cash, stocks are _____ and owning stock <br> means you are _____ of the company.",
     answers: {
       a: "forms of money, part owner",
       b: "an asset class, part owner",
@@ -20,7 +20,7 @@ const store = [
     
 
   {
-    question: "What is the primary difference between the S&P 500 index vs DOW Jones Industrial (DJI) index?",
+    question: "What is the primary difference between <br> the S&P 500 index vs DOW Jones Industrial (DJI) index?",
     answers: {
       a: "the DOW Jones is more important because the index price is larger than S&P 500",
       b: "the S&P500 stocks are more important",
@@ -31,7 +31,7 @@ const store = [
   },
     
   {
-    question: "The reason people invest in asset classes such as stocks, real estate and gold is because ______ . ",
+    question: "The reason people invest in asset classes <br> such as stocks, real estate and gold is because ______ . ",
     answers: {
       a: "asset classes are a store of value",
       b: "asset classes appreciate in value",
@@ -64,7 +64,7 @@ const store = [
   },
 
   {
-    question: "When investing over a long period of time, what is the most successful strategy?",
+    question: "When investing over a long period of time, <br> what is the most successful strategy?",
     answers: {
       a: "buying stock all at once",
       b: "dollar cost averaging (DCA), meaning buying fixed dollar amounts of stock over time",
@@ -111,30 +111,35 @@ function handleBeginQuizPrompt(){
   $('#quiz').removeClass('hidden');
   $('#question_number').removeClass('hidden');
   $('#results').removeClass('hidden')
+  $('#previous').removeClass('hidden')
   $('#next').removeClass('hidden')
+  $('#resultsFinal').addClass('hidden');
  };
 
 // Function to hide Quiz elements and display results and 
  function submitQuizResults(){
+  
     //function hides the quiz and quiz buttons
     $('#quiz').addClass('hidden');
     $('#question_number').addClass('hidden');
+    $('#previous').addClass('hidden');
     $('#next').addClass('hidden');
-
-    //function pushes a Quiz Results div to the html 
-    $(/*undefined*/).prepend('#results')
-
-
-    //displays score x out of total
-    (/*undefined*/).innerHTML = `${numCorrect} out of ${store.length} correct`;
-
-    //hide submit quiz button
-    //unhide a reset quiz button 
-      //(1) need to add a reset quiz button 
-      //(2) set up event handler function for reset quiz button (callback in the function will be renderQuiz)
+    $('#results').addClass('hidden');
  }
 
-
+//Function to display in HTML 'Quiz Results' Prompt with Restart Button
+function generateFinalResults() {
+  return `
+  <div id ="resultsFinal" class="resultsFinal">
+    <form>
+      <p>
+        Your quiz results are: <span id="resultSpan"></span> <br>Press the restart button to retake quiz.
+      </p>
+      <button type="button"id="restartQuiz" autofocus>Restart Quiz</button>
+    </form>
+  </div>
+    `;
+}
 
   /********** RENDER FUNCTION(S) **********/
     
@@ -150,12 +155,17 @@ function renderQuiz(){
   // declare variable for Welcomestring function outside function
   const welcomeString = generateWelcomeString();
 
+  // declare variable for Final Results Div function outside function
+  const resultsString = generateFinalResults();
+
 
 //hides quiz elements and adds welcomeString to HTML
+$('main').prepend(resultsString)
+$('.resultsFinal').addClass('hidden');
 $('#quiz').addClass('hidden');
 $('#question_number').addClass('hidden');
 $('#next').addClass('hidden');
-$('#results').addClass('hidden')
+$('#results').addClass('hidden');
 $('main').prepend(welcomeString);
 
 
@@ -213,28 +223,24 @@ function showResults(){
     // if user answer is correct
     if(userAnswer === currentQuestion.correctAnswer){
       numCorrect++;
-
-      // $('correctAnswer').css('color','green');
-
       }
-
-      /*
-    else if(userAnswer != currentQuestion.correctAnswer){
-      $('#question_number').append(":correct answer was");
-      } 
-      */
 
   });
 
 
-  // show number of correct answers out of total
+  // show number of correct answers out of total 
+  //resultContainer is container on each question slide , resultSpan is final Quiz Result output
   resultsContainer = document.getElementById('results');
-
+  resultSpan = document.getElementById('resultSpan')
+  resultSpan.innerHTML = `<b>${numCorrect} out of ${store.length} correct<b>`;
   resultsContainer.innerHTML = `${numCorrect} out of ${store.length} correct`;
-  console.log(`${store.currentQuestion} out of ${store.length}`)
+
+  console.log(`${numCorrect} out of ${store.length} correct`)
 }
 
-//Function to Show Slide
+//Function to Show Current Slide
+/*utilizes slide vs active slide CSS property to hide/unhide current question*/
+
 function showSlide(currentSlide) {
 
   console.log("current slide is "+currentSlide)
@@ -244,12 +250,13 @@ function showSlide(currentSlide) {
   var slides = document.querySelectorAll(".slide");
 
   //Displays question number "x" out of "y" questions in Quiz
+  // Set to less than or equal to 6 because question #1 starts on slide 0//
+  if (currentSlide <= 6){
   $('#question_number').text("Question "+(currentSlide+1)+" out of 7");
-
+  }
   
+  //changes class of current slide to active //
   slides[currentSlide].classList.add('active-slide');
-  slides[currentSlide + 1].classList.remove('active-slide');
-  
 
   // if on first slide hide previous button
   if(currentSlide === 0){
@@ -259,7 +266,7 @@ function showSlide(currentSlide) {
     previousButton.style.display = 'inline-block';
   }
   // if current slide is == last slide, display submitButton && hide nextButton
-  if(currentSlide === slides.length-1){
+  if(currentSlide === 6){
     nextButton.style.display = 'none';
     submitButton.style.display = 'inline-block';
   }
@@ -281,7 +288,14 @@ function showNextSlide() {
 function showPreviousSlide() {
   currentSlide = currentSlide - 1;
   showSlide(currentSlide);
+  hideForwardSlide()
   console.log('`showPreviousSlide` ran');
+}
+
+//Function to hide Forward Slide if Previous Slide is Initiated
+function hideForwardSlide(){
+  var slides = document.querySelectorAll(".slide");
+  slides[currentSlide+1].classList.remove('active-slide');
 }
  
  // Function to Show First Slide
@@ -323,7 +337,6 @@ function handleNextSlideShowResults(){
 
 function handleBeginSlide(){
   console.log('`handleBeginSlide` ran');
-
   $('main').on('click', '#beginQuiz', (event) =>{
     event.preventDefault();
     handleBeginQuizPrompt();
@@ -332,13 +345,20 @@ function handleBeginSlide(){
 }
 
 function handleSubmitSlide(){
+  console.log('`handleSubmitSlide` ran');
   $('main').on('click', '#submit', (event) =>{
     event.preventDefault();
-    showResults();
-    //renderQuiz();
+    submitQuizResults();
+    $('#resultsFinal').removeClass('hidden');
+    $('#submit').addClass('hidden');
   });
 }
 
+function handleResetSlide(){
+  $('main').on('click', '#restartQuiz', (event) =>{
+    location.reload(true)
+  });
+}
 
 //Init function to run functions after document loaded
 
@@ -347,18 +367,18 @@ function handleSubmitSlide(){
     handleBeginSlide();
     showFirstSlide();
     showResults();
+    submitQuizResults()
     handlePreviousSlide();
+    hideForwardSlide();
     handleNextSlide();
     handleNextSlideShowResults();
     handleSubmitSlide();
+    handleResetSlide();
   }
   
   quizReady();
 
-
 })();
-
-
 
 
   /**
