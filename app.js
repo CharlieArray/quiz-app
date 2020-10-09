@@ -6,6 +6,7 @@ let currentSlide;
 const quizContainer = document.getElementById('quiz');
 let resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
+
 const store = [
   {
     question: "Like real estate, gold and cash, stocks are _____ and owning stock <br> means you are _____ of the company.",
@@ -89,7 +90,21 @@ const store = [
 ];
 
 /********** TEMPLATE GENERATION FUNCTIONS **********/
-  
+/*  
+function pushElementsToHTML(){
+  return `
+  <span id="question_number"></span> 
+    <div class="quiz-container">
+      <div id="quiz"></div>
+    </div>
+    <button id="previous">Previous Question</button>
+    <button id="next">Next Question</button>
+    <button id="submit">Submit Quiz</button>
+  <div id="results"></div>
+  `;
+}
+*/
+
 //Function to display in HTML 'Begin Quiz' Prompt/Button
 function generateWelcomeString() {
   return `
@@ -104,7 +119,7 @@ function generateWelcomeString() {
     `;
 }
 
-// Function for hiding/unhiding WelcomeString and Quiz
+// Function for hiding WelcomeString and unhiding quiz elements
 function handleBeginQuizPrompt(){
   console.log('`handleBeginQuizSubmit` ran');
   $('#welcome').hide(); 
@@ -116,7 +131,7 @@ function handleBeginQuizPrompt(){
   $('#resultsFinal').addClass('hidden');
  };
 
-// Function to hide Quiz elements and display results and 
+// Function to hide quiz elements & display results >> called by handleSubmitSlide  
  function submitQuizResults(){
   
     //function hides the quiz and quiz buttons
@@ -144,14 +159,19 @@ function generateFinalResults() {
   /********** RENDER FUNCTION(S) **********/
     
 // Function to Render Store and Quiz Container Elements.
-/* Note all store questions/answers are pushed to HTML 
-  immediately when renderQuiz is ran, and cycled through via function showSlide(currentSlide) */
+/* Note: all store questions/answers are pushed to HTML 
+  immediately when renderQuiz is called, and cycled via function showSlide(currentSlide) */
 function renderQuiz(){
   console.log('`renderQuiz` ran');
 
+//IN PROGESS//
+  //let quizElements = pushElementsToHTML();
+  //$('main').prepend(quizElements);
+  
   //stores HTML output of store questions/answers
   const output = [];
 
+  
   // declare variable for Welcomestring function outside function
   const welcomeString = generateWelcomeString();
 
@@ -160,7 +180,8 @@ function renderQuiz(){
 
 
 //hides quiz elements and adds welcomeString to HTML
-$('main').prepend(resultsString)
+//$('main').append(quizElements);
+$('main').prepend(resultsString);
 $('.resultsFinal').addClass('hidden');
 $('#quiz').addClass('hidden');
 $('#question_number').addClass('hidden');
@@ -277,6 +298,42 @@ function showSlide(currentSlide) {
   console.log('`showSlide (currentSlide)` ran')
 }
 
+//STILL IN PROGRESS 
+//Function to Show Feedback to User
+function feedbackSlide(){
+
+//define variables
+userAnswer = (answerContainer.querySelector(selector) || {}).value;
+currentQuestion.correctAnswer
+
+
+store.forEach( (currentQuestion) => {
+  
+  //correct answer
+  userAnswer = (answerContainer.querySelector(selector) || {}).value;
+//hide div id "quiz"
+$('#quiz').addClass('hidden');
+//create feedback div
+$('main').prepend(`<div id ="feedback" class="feedback"></div>`)
+
+//if correct, display "That is the correct answer"
+if(userAnswer === currentQuestion.correctAnswer){
+  $('#feedback').text("That is the correct answer");
+  }
+//if wrong, display the correct answer
+else($('#feedback').text("currentQuestion.correctAnswer"))
+
+//provide "continue button"
+
+//event listener for continue button
+//hitting continue button hides feedback div, 
+
+//unhides div id "quiz"
+
+  });
+}
+
+
 //Function to Show Next Slide 
 function showNextSlide() {
   currentSlide = currentSlide + 1;
@@ -322,6 +379,7 @@ function handlePreviousSlide(){
 function handleNextSlide(){
   $('main').on('click', '#next', (event) =>{
     event.preventDefault();
+    //feedbackSlide();
     showNextSlide();
     //renderQuiz();
   });
@@ -348,6 +406,7 @@ function handleSubmitSlide(){
   console.log('`handleSubmitSlide` ran');
   $('main').on('click', '#submit', (event) =>{
     event.preventDefault();
+    showResults();
     submitQuizResults();
     $('#resultsFinal').removeClass('hidden');
     $('#submit').addClass('hidden');
@@ -398,12 +457,9 @@ The following requirements cover what the app must do, from the user's perspecti
    2) -NEED HELP Upon submitting an answer, users should:
         -receive textual feedback about their answer. If they were incorrect, they should be told the correct answer.
         -be moved onto the next question (or interact with an element to move on).
-   3) -Users should be shown their overall score at the end of the quiz. In other words, how many questions they got right out of the total questions asked.
-   4) -Users should be able to start a new quiz.
-        function startNewQuiz(){
-          -define variables if variables/objects outside of function
-          -conditional statement: if currentquestion == store.length && user hits next button, {1) unhide restartQuiz button) }
-          } >>if user clicks on restartQuiz button, an event listener is triggered that executes a callback function that refreshes the page. 
+   DONE -Users should be shown their overall score at the end of the quiz. In other words, how many questions they got right out of the total questions asked.
+   DONE -Users should be able to start a new quiz.
+      
 
         
 Technical requirements
@@ -414,7 +470,7 @@ Your quiz app must:
     -Include single-purpose template generation functions.
     COMPLETE -Include single-purpose event handler functions.
     COMPLETE -Call all functions from a jQuery initializing function.
-   5) -NOT add additional HTML elements to the boilerplate code's index.html file 
+   3) -NOT add additional HTML elements to the boilerplate code's index.html file 
         (you may add attributes, e.g., classes and ids, to the existing HTML elements, or link stylesheets or additional scripts if necessary).
    6) -Render answer choices in a <form>.
    7) -Use semantic HTML, along with CSS and jQuery.
