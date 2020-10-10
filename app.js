@@ -54,7 +54,7 @@
     },
       
     {
-      question: "The Securities and Exchange Commission (SEC), classifies stocks under ____ as penny stocks.",
+      question: "The Securities and Exchange Commission (SEC) classifies stocks under ____ as penny stocks.",
       answers: {
         a: "$5.00",
         b: "$1.00",
@@ -109,19 +109,20 @@
   // Function for hiding WelcomeString and unhiding quiz elements
   function handleBeginQuizPrompt(){
     console.log('`handleBeginQuizSubmit` ran');
+
     $('#welcome').hide(); 
+    $('#resultsFinal').addClass('hidden');
     $('#quiz').removeClass('hidden');
     $('#question_number').removeClass('hidden');
-    $('#results').removeClass('hidden')
-    $('#previous').removeClass('hidden')
-    $('#next').removeClass('hidden')
-    $('#resultsFinal').addClass('hidden');
+    $('#results').removeClass('hidden');
+    $('#previous').removeClass('hidden');
+    $('#next').removeClass('hidden');
    };
   
-  // Function to hide quiz elements & display results >> called by handleSubmitSlide  
+  // Function to hide quiz elements before display final results >> called by handleSubmitSlide() 
    function submitQuizResults(){
     
-      //function hides the quiz and quiz buttons
+      //hides the quiz and quiz buttons
       $('#quiz').addClass('hidden');
       $('#question_number').addClass('hidden');
       $('#previous').addClass('hidden');
@@ -129,7 +130,7 @@
       $('#results').addClass('hidden');
    }
   
-  //Function to display in HTML 'Quiz Results' Prompt with Restart Button
+  //Function to push 'Quiz Results' prompt with Restart Button to HTML
   function generateFinalResults() {
     return `
     <div id ="resultsFinal" class="resultsFinal">
@@ -143,45 +144,27 @@
       `;
   }
   
-  //IN PROGRESS
-  function pushElementsToHTML(){
-    return `
-    <span id="question_number"></span> 
-      <div class="quiz-container">
-        <div id="quiz"></div>
-      </div>
-      <button id="previous">Previous Question</button>
-      <button id="next">Next Question</button>
-      <button id="submit">Submit Quiz</button>
-    <div id="results"></div>
-    `;
-  }
 
     /********** RENDER FUNCTION(S) **********/
       
   // Function to Render Store and Quiz Container Elements.
   /* Note: all store questions/answers are pushed to HTML 
     immediately when renderQuiz is called, and cycled via function showSlide(currentSlide) */
+
   function renderQuiz(){
     console.log('`renderQuiz` ran');
   
-  //IN PROGESS//
-    //let quizElements = pushElementsToHTML();
-    //$('main').prepend(quizElements);
-    
     //stores HTML output of store questions/answers
     const output = [];
   
-    
     // declare variable for Welcomestring function outside function
     const welcomeString = generateWelcomeString();
   
     // declare variable for Final Results Div function outside function
     const resultsString = generateFinalResults();
   
-  
+
   //hides quiz elements and adds welcomeString to HTML
-  //$('main').append(quizElements);
   $('main').prepend(resultsString);
   $('.resultsFinal').addClass('hidden');
   $('#quiz').addClass('hidden');
@@ -246,7 +229,10 @@
       if(userAnswer === currentQuestion.correctAnswer){
         numCorrect++;
         }
-  
+      // if user answer is incorrect
+      else if(currentSlide !== 0){
+        console.log("Correct answer was" + currentQuestion.correctAnswer )
+      }   
     });
   
   
@@ -306,43 +292,10 @@
   
 
   
-  //Function to Show Feedback to User
-  //STILL IN PROGRESS 
-  function feedbackSlide(){
-  //define variables
-  userAnswer = (answerContainer.querySelector(selector) || {}).value;
-  currentQuestion.correctAnswer
-  
-  store.forEach( (currentQuestion) => {
-    
-    //correct answer
-    userAnswer = (answerContainer.querySelector(selector) || {}).value;
-  //hide div id "quiz"
-  $('#quiz').addClass('hidden');
-  //create feedback div
-  $('main').prepend(`<div id ="feedback" class="feedback"></div>`)
-  
-  //if correct, display "That is the correct answer"
-  if(userAnswer === currentQuestion.correctAnswer){
-    $('#feedback').text("That is the correct answer");
-    }
-  //if wrong, display the correct answer
-  else($('#feedback').text("currentQuestion.correctAnswer"))
-  
-  //provide "continue button"
-  
-  //event listener for continue button
-  //hitting continue button hides feedback div, 
-  
-  //unhides div id "quiz"
-  
-    });
-  }
-  
   //Function to Show Next Slide 
   function showNextSlide() {
-      currentSlide = currentSlide + 1;
-      showSlide(currentSlide);
+    currentSlide = currentSlide + 1;
+    showSlide(currentSlide);
     console.log('`showNextSlide` ran');
   }
   
@@ -354,7 +307,7 @@
     console.log('`showPreviousSlide` ran');
   }
   
-  //Function to hide Forward Slide if Previous Slide is Initiated (REWORD THIS)
+  //Function to Hide Forward Slide if Previous Slide is Selected 
   function hideForwardSlide(){
     var slides = document.querySelectorAll(".slide");
     slides[currentSlide+1].classList.remove('active-slide');
@@ -367,6 +320,25 @@
     console.log('`showFirstSlide` ran');
   }
   
+ // Function to Prevent Skipping Quiz Question
+ function preventClickNextButton(){
+    $('#next').attr('disabled', true); 
+    $('input').on('click', event=> {
+       if ($('input').is(':checked')){
+        $('#next').prop('disabled', false);
+        } 
+    });
+ }
+
+  // Function to Prevent Skipping Quiz Question
+  function preventClickSubmitButton(){
+    $('#submit').attr('disabled', true); 
+    $('input').on('click', event=> {
+       if ($('input').is(':checked')){
+        $('#submit').prop('disabled', false);
+        } 
+    });
+ }
   
   /********** EVENT HANDLER FUNCTIONS **********/
   // These functions handle events (submit, click, etc)
@@ -383,14 +355,10 @@
 
   function handleNextSlide(){
     $('main').on('click', '#next', (event) =>{
-      for (let i = 0; i<= store.length; i++){
-        if ($('input').is(':checked')){
-          console.log(i)
-          event.preventDefault();
-          return showNextSlide();
-        }
-        else console.log('user attempted to skip question')
-      }
+      event.preventDefault();
+      showNextSlide();
+      preventClickNextButton();
+      preventClickSubmitButton();
     });
   }
   
@@ -427,11 +395,16 @@
   //Init function to run functions after document loaded
   
     function quizReady(){
+      generateWelcomeString();
+      handleBeginQuizPrompt();
+      generateFinalResults();
       renderQuiz();
-      handleBeginSlide();
       showFirstSlide();
+      preventClickNextButton();
       showResults();
-      submitQuizResults()
+      preventClickSubmitButton();
+      submitQuizResults();
+      handleBeginSlide();
       handlePreviousSlide();
       hideForwardSlide();
       handleNextSlide();
