@@ -264,11 +264,11 @@ function showResults(){
 
 function showSlide(currentSlide) {
 
-  console.log("current slide is "+currentSlide)
+  console.log("current slide is " + currentSlide);
 
   var previousButton = document.getElementById("previous");
   var nextButton = document.getElementById("next");
-  var slides = document.querySelectorAll(".slide");
+  var slides = $(".slide");
 
   //Displays question number "x" out of "y" questions in Quiz
   // Set to less than or equal to 6 because question #1 starts on slide 0//
@@ -276,6 +276,10 @@ function showSlide(currentSlide) {
   $('#question_number').text("Question "+(currentSlide+1)+" out of 7");
   }
   
+  //prevents previous slides from bubbling up
+  $('.slide').removeClass('active-slide');
+
+
   //changes class of current slide to active //
   slides[currentSlide].classList.add('active-slide');
 
@@ -349,7 +353,7 @@ function showPreviousSlide() {
   console.log('`showPreviousSlide` ran');
 }
 
-//Function to hide Forward Slide if Previous Slide is Initiated
+//Function to hide Forward Slide if Previous Slide is Initiated (REWORD THIS)
 function hideForwardSlide(){
   var slides = document.querySelectorAll(".slide");
   slides[currentSlide+1].classList.remove('active-slide');
