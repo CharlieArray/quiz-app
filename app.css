@@ -67,7 +67,7 @@ and (max-device-height: 736px) and (-webkit-device-pixel-ratio: 3) { }
     margin-top: 20px;
   }
 
-  div.answers{ 
+  form.answers{ 
     flex-direction: column;
     border: medium solid grey;
     border-radius: 5px;
@@ -79,6 +79,7 @@ and (max-device-height: 736px) and (-webkit-device-pixel-ratio: 3) { }
     margin-right: 30px;
     padding: .3%;
   }
+
 
   div.resultsFinal{
     flex-direction: column;

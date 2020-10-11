@@ -91,7 +91,6 @@
   
   /********** TEMPLATE GENERATION FUNCTIONS **********/
 
-
   //Function to display in HTML 'Begin Quiz' Prompt/Button
   function generateWelcomeString() {
     return `
@@ -178,15 +177,17 @@
   
       //variable to store possible answers 
       const answers = [];
-  
-      // for each avaiable answer
+      const formVariable = [];
+
+      // for each available answer
       for(letter in currentQuestion.answers){
         answers.push(
-          `<form>
-            <input type="radio" name="invest" id="question${questionNumber}" value="${letter}">
+          `<div>
+            <input type="radio" name="question${questionNumber}" id="question${questionNumber}" value="${letter}">
               ${letter} :
               ${currentQuestion.answers[letter]}
-          </form>`
+            </div>
+          `
           );
       }
   
@@ -194,7 +195,7 @@
       output.push(
         `<div class="slide">
           <div class="question"> ${currentQuestion.question} </div>
-          <div class="answers"> ${answers.join("")} </div>
+          <form class="answers"> ${answers.join("")} </form>
         </div>`
       );
     }
@@ -216,6 +217,7 @@
   
     //variable to track users correct answers
     let numCorrect = 0;
+    let inCorrect = 0 + numCorrect
   
     //loop through each question
     store.forEach( (currentQuestion, questionNumber) => {
@@ -230,9 +232,7 @@
         numCorrect++;
         }
       // if user answer is incorrect
-      else if(currentSlide !== 0){
-        console.log("Correct answer was" + currentQuestion.correctAnswer )
-      }   
+      else console.log("Correct answer was" + currentQuestion.correctAnswer)
     });
   
   
@@ -430,9 +430,9 @@
       COMPLETE-Users should be prompted through a series of at least 5 multiple choice questions that they can answer.
           COMPLETE-Users should be asked questions 1 after the other.
           COMPLETE-Users should only be prompted with 1 question at a time.
-     1) NEED HELP -Users should not be able to skip questions.
+     1) COMPLETE -Users should not be able to skip questions.
       COMPLETE-Users should also be able to see which question they're on (for instance, "7 out of 10") and their current score ("5 correct, 2 incorrect").
-     2) -NEED HELP Upon submitting an answer, users should:
+     2) -NOT COMPLETE Upon submitting an answer, users should:
           -receive textual feedback about their answer. If they were incorrect, they should be told the correct answer.
           -be moved onto the next question (or interact with an element to move on).
      DONE -Users should be shown their overall score at the end of the quiz. In other words, how many questions they got right out of the total questions asked.
