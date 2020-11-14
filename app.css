@@ -1,6 +1,6 @@
 
 /*Styling Rules for Devices under 450 px */
-@media only screen and (min-device-width: 450px) 
+@media only screen and (min-device-width: 320px) 
 and (max-device-height: 736px) and (-webkit-device-pixel-ratio: 3) { }
 
   body {
@@ -23,8 +23,14 @@ and (max-device-height: 736px) and (-webkit-device-pixel-ratio: 3) { }
   }
 
   button{
-    margin-top: auto;
-    margin-bottom: auto;
+    display: block;
+    align-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    width: 200px;
+    height: 40px;
   }
 
   .hidden {
@@ -74,9 +80,10 @@ and (max-device-height: 736px) and (-webkit-device-pixel-ratio: 3) { }
     background-color: lightblue;
     font-size: 18px;
     text-align:left;
+    line-height: 25px;
     margin-top: 20px;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
     padding: .3%;
   }
 
@@ -95,7 +102,11 @@ and (max-device-height: 736px) and (-webkit-device-pixel-ratio: 3) { }
   }
   
   #results{
-    margin-left: 5px;
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
   }
 
   form{

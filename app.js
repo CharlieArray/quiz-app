@@ -276,15 +276,15 @@
       submitButton.style.display = 'none'
     }
     else{
-      previousButton.style.display = 'inline-block';
+      previousButton.style.display = 'block';
     }
     // if current slide is == last slide, display submitButton && hide nextButton
     if(currentSlide === 6){
       nextButton.style.display = 'none';
-      submitButton.style.display = 'inline-block';
+      submitButton.style.display = 'block';
     }
     else{
-      nextButton.style.display = 'inline-block';
+      nextButton.style.display = 'block';
       submitButton.style.display = 'none';
     }
     console.log('`showSlide (currentSlide)` ran')
