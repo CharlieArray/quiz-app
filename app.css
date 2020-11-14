@@ -21,7 +21,9 @@
 
 
   .app-image{
-    width: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     height: 200px;
     border-radius: 5px;
     opacity: .8;
@@ -51,6 +53,7 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
+    margin-bottom: 10px;
     width: 200px;
     height: 40px;
   }
@@ -218,8 +221,8 @@
   }
 
   .app-image{
-    width: 500px;
-    height: 500px;
+    width: 470px;
+    height: 470px;
   }
 
 }

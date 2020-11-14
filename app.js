@@ -1,8 +1,4 @@
-(function(){
-
-  let currentSlide;
-  
-  //HTML elements stored as variables//
+    //HTML elements stored as variables//
   const quizContainer = $('#quiz')[0];
   let resultsContainer = $('#results')[0];
   const submitButton = $('#submit')[0];
@@ -107,15 +103,19 @@
   
   // Function for hiding WelcomeString and unhiding quiz elements
   function handleBeginQuizPrompt(){
-    console.log('`handleBeginQuizSubmit` ran');
 
     $('#welcome').hide(); 
     $('#resultsFinal').addClass('hidden');
     $('#quiz').removeClass('hidden');
+    $('#piggy-bank').css({'width':'30%','height':'30%'});
+    $('h1').css('font-size', '32px')
     $('#question_number').removeClass('hidden');
     $('#results').removeClass('hidden');
     //$('#previous').removeClass('hidden');
     $('#next').removeClass('hidden');
+    
+    //console.log('`handleBeginQuizSubmit` ran');
+
    };
   
   // Function to hide quiz elements before display final results >> called by handleSubmitSlide() 
@@ -151,7 +151,6 @@
     immediately when renderQuiz is called, and cycled via function showSlide(currentSlide) */
 
   function renderQuiz(){
-    console.log('`renderQuiz` ran');
   
     //stores HTML output of store questions/answers
     const output = [];
@@ -162,6 +161,8 @@
     // declare variable for Final Results Div function outside function
     const resultsString = generateFinalResults();
   
+
+
 
   //hides quiz elements and adds welcomeString to HTML
   $('main').prepend(resultsString);
@@ -208,7 +209,6 @@
   
   // Function to calculate results of Quiz
   function showResults(){
-    console.log('`showResults` ran');
   
     let quizContainer = $('#quiz')[0];
   
@@ -232,7 +232,7 @@
         numCorrect++;
         }
       // if user answer is incorrect
-      else console.log("Correct answer was" + currentQuestion.correctAnswer)
+      //else console.log("Correct answer was" + currentQuestion.correctAnswer)
     });
   
   
@@ -243,7 +243,7 @@
     resultSpan.innerHTML = `<b>${numCorrect} out of ${store.length} correct<b>`;
     resultsContainer.innerHTML = `${numCorrect} out of ${store.length} correct`;
   
-    console.log(`${numCorrect} out of ${store.length} correct`)
+    //console.log(`${numCorrect} out of ${store.length} correct`)
   }
   
   //Function to Show Current Slide
@@ -251,7 +251,7 @@
   
   function showSlide(currentSlide) {
   
-    console.log("current slide is " + currentSlide);
+    //console.log("current slide is " + currentSlide);
   
     var previousButton = $("#previous")[0];
     var nextButton = $("#next")[0];
@@ -281,13 +281,14 @@
     // if current slide is == last slide, display submitButton && hide nextButton
     if(currentSlide === 6){
       nextButton.style.display = 'none';
+      $('#submit').removeClass('hidden');
       submitButton.style.display = 'block';
     }
     else{
       nextButton.style.display = 'block';
       submitButton.style.display = 'none';
     }
-    console.log('`showSlide (currentSlide)` ran')
+    //console.log('`showSlide (currentSlide)` ran')
   }
   
 
@@ -296,7 +297,7 @@
   function showNextSlide() {
     currentSlide = currentSlide + 1;
     showSlide(currentSlide);
-    console.log('`showNextSlide` ran');
+    //console.log('`showNextSlide` ran');
   }
   
   //Function to Show Previous Slide 
@@ -304,7 +305,7 @@
     currentSlide = currentSlide - 1;
     showSlide(currentSlide);
     hideForwardSlide()
-    console.log('`showPreviousSlide` ran');
+    //console.log('`showPreviousSlide` ran');
   }
   
   //Function to Hide Forward Slide if Previous Slide is Selected 
@@ -317,7 +318,7 @@
    function showFirstSlide(){
     currentSlide = 0;
     showSlide(currentSlide); 
-    console.log('`showFirstSlide` ran');
+    //console.log('`showFirstSlide` ran');
   }
   
  // Function to Prevent Skipping Quiz Question
@@ -383,6 +384,7 @@
       submitQuizResults();
       $('#resultsFinal').removeClass('hidden');
       $('#submit').addClass('hidden');
+      $('#piggy-bank').css({'width':'80%','height':'80%'});
     });
   }
   
@@ -396,7 +398,6 @@
   
     function quizReady(){
       generateWelcomeString();
-      handleBeginQuizPrompt();
       generateFinalResults();
       renderQuiz();
       showFirstSlide();
@@ -413,51 +414,7 @@
       handleResetSlide();
     }
     
-    quizReady();
-  
-  })();
-  
-  
-    /**
-   Project Requirements
-  
-  While you're building your quiz app, you'll need to keep in mind what your app must do and how it should be built.
-  User experience requirements
-  
-  The following requirements cover what the app must do, from the user's perspective.
-  
-      COMPLETE-The starting screen should have a button that users can click to start the quiz.
-      COMPLETE-Users should be prompted through a series of at least 5 multiple choice questions that they can answer.
-          COMPLETE-Users should be asked questions 1 after the other.
-          COMPLETE-Users should only be prompted with 1 question at a time.
-     1) COMPLETE -Users should not be able to skip questions.
-      COMPLETE-Users should also be able to see which question they're on (for instance, "7 out of 10") and their current score ("5 correct, 2 incorrect").
-     2) -NOT COMPLETE Upon submitting an answer, users should:
-          -receive textual feedback about their answer. If they were incorrect, they should be told the correct answer.
-          -be moved onto the next question (or interact with an element to move on).
-     DONE -Users should be shown their overall score at the end of the quiz. In other words, how many questions they got right out of the total questions asked.
-     DONE -Users should be able to start a new quiz.
-        
-  
-          
-  Technical requirements
-  
-  Your quiz app must:
-  
-      COMPLETE- Include a render() function, that conditionally regenerates the view each time the store is updated.
-      -Include single-purpose template generation functions.
-      COMPLETE -Include single-purpose event handler functions.
-      COMPLETE -Call all functions from a jQuery initializing function.
-     3) -NOT add additional HTML elements to the boilerplate code's index.html file 
-          (you may add attributes, e.g., classes and ids, to the existing HTML elements, or link stylesheets or additional scripts if necessary).
-     6) -Render answer choices in a <form>.
-     7) -Use semantic HTML, along with CSS and jQuery.
-     8) -Follow a11y best practices.
-      -Be fully usable by keyboard (which will be easy enough if you start with a form).
-      -Use responsive design.
-          Refer back to the previous checkpoints on responsive design and forms for any help with the HTML/CSS materials.
-  
-     */
-    
-  
+
+  $(document).ready(quizReady);
+   
   
