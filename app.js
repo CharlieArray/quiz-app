@@ -384,7 +384,7 @@
       submitQuizResults();
       $('#resultsFinal').removeClass('hidden');
       $('#submit').addClass('hidden');
-      $('#piggy-bank').css({'width':'80%','height':'80%'});
+      $('#piggy-bank').css({'width':'60%','height':'60%'});
     });
   }
   
