@@ -114,7 +114,7 @@
     $('#quiz').removeClass('hidden');
     $('#question_number').removeClass('hidden');
     $('#results').removeClass('hidden');
-    $('#previous').removeClass('hidden');
+    //$('#previous').removeClass('hidden');
     $('#next').removeClass('hidden');
    };
   
