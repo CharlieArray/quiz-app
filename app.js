@@ -12,7 +12,8 @@
         c: "pieces of paper, part owner",
         d: "currency, part owner"
       },
-      correctAnswer: "b"
+      correctAnswer: "b",
+      response: "an asset class, part owner"
     },
       
   
@@ -24,29 +25,32 @@
         c: "the S&P500 is market cap weighted index vs DJI which is price weighted index",
         d: "the DOW Jones stocks are more important"
       },
-      correctAnswer: "c"
+      correctAnswer: "c",
+      response: "the S&P500 is market cap weighted index vs DJI which is price weighted index"
     },
       
     {
       question: "The reason people invest in asset classes <br> such as stocks, real estate and gold is because ______ . ",
       answers: {
-        a: "asset classes are a store of value",
-        b: "asset classes appreciate in value",
+        a: "asset classes typically are a store of value",
+        b: "asset classes can appreciate in value",
         c: "asset classes are a hedge against inflation",
         d: "all the above"
       },
-      correctAnswer: "d"
+      correctAnswer: "d",
+      response: "all the above"
     },
       
     {
-      question: "When looking at two different companies by their stock, how can you tell which company is larger/more valuable?",
+      question: "When looking at two different companies by their stock, how can you tell which company is larger?",
       answers: {
-        a: "the company with the higher stock price is larger/more valuable",
-        b: "the company with the larger market cap is larger/more valuable",
+        a: "the company with the higher stock price is larger",
+        b: "the company with the larger market cap is larger",
         c: "the company with the more recognizable name",
         d: "the company with the most amount of shares"
       },
-      correctAnswer: "b"
+      correctAnswer: "b",
+      response: "the company with the larger market cap is larger"
     },
       
     {
@@ -57,7 +61,8 @@
         c: "$0.99",
         d: "$10.00"
       },
-      correctAnswer: "a"
+      correctAnswer: "a",
+      response: "$5.00"
     },
   
     {
@@ -68,7 +73,9 @@
         c: "buying penny stocks",
         d: "never investing",
       },
-      correctAnswer: "b"
+      correctAnswer: "b",
+      response: "dollar cost averaging (DCA), meaning buying fixed dollar amounts of stock over time"
+
     },
   
     {
@@ -79,7 +86,8 @@
         c: "stock price, shares available",
         d: "all the above"
       },
-      correctAnswer: "c"
+      correctAnswer: "c",
+      response: "stock price, shares available"
     }
   
   
@@ -178,7 +186,6 @@
   
       //variable to store possible answers 
       const answers = [];
-      const formVariable = [];
 
       // for each available answer
       for(letter in currentQuestion.answers){
@@ -191,7 +198,7 @@
           `
           );
       }
-  
+      
       // adds the question and answers to the output
       output.push(
         `<div class="slide">
@@ -201,6 +208,8 @@
       );
     }
   );
+
+
   
     //combines output list into one string of HTML and puts it on the page
     quizContainer.innerHTML = output.join('');
@@ -209,7 +218,26 @@
   
   // Function to calculate results of Quiz
   function showResults(){
-  
+
+
+    /*UNDER DEVELOPMENT - FEATURE TO DISPLAY CORRECT ANSWERS
+
+    const responseArray = [];
+
+    // for each available response
+    for (let i = 0; i < store.length; i++){
+      responseArray.push(
+        `${store[i].response}`
+        );
+    }
+
+    for(let i=0; i < responseArray.length; i++){
+      if(responseArray[i].length == currentSlide){
+      }
+      //console.log(responseArray[i])
+    }
+   */
+
     let quizContainer = $('#quiz')[0];
   
     //variable to gather answer containers from quiz
@@ -217,24 +245,23 @@
   
     //variable to track users correct answers
     let numCorrect = 0;
-    let inCorrect = 0 + numCorrect
   
     //loop through each question
     store.forEach( (currentQuestion, questionNumber) => {
       
       //finds selected answer
       const answerContainer = answerContainers[questionNumber];
+   
       const selector = `input[id=question${questionNumber}]:checked`;
       const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-      
+
       // if user answer is correct
       if(userAnswer === currentQuestion.correctAnswer){
         numCorrect++;
         }
-      // if user answer is incorrect
-      //else console.log("Correct answer was" + currentQuestion.correctAnswer)
+    
+ 
     });
-  
   
     // show number of correct answers out of total 
     //resultContainer is container on each question slide , resultSpan is final Quiz Result output
@@ -288,7 +315,6 @@
       nextButton.style.display = 'block';
       submitButton.style.display = 'none';
     }
-    //console.log('`showSlide (currentSlide)` ran')
   }
   
 
